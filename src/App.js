@@ -16,6 +16,21 @@ class App extends Component {
         name: "Wookie",
       },
     ],
+    newDogName: "",
+  };
+
+  handleChangeDogName = (event) => {
+    this.setState({ newDogName: event.target.value });
+  };
+
+  handleAddDogName = () => {
+    let newDogObj = {
+      name: this.state.newDogName,
+    };
+    this.setState((state) => ({
+      dogs: [...state.dogs, newDogObj],
+      newDogName: "",
+    }));
   };
 
   render() {
@@ -24,14 +39,20 @@ class App extends Component {
         <Header numDogs={this.state.dogs.length} />
         <h2>My Dogs</h2>
         <ul className="dogList">
-          {this.state.dogs.map((dog) => (
-            <li>
+          {this.state.dogs.map((dog, index) => (
+            <li key={index}>
               <Dog dog={dog} />
             </li>
           ))}
         </ul>
         <br />
-        <div>Add Input and button here!</div>
+
+        <input
+          type="text"
+          onChange={this.handleChangeDogName}
+          value={this.state.newDogName}
+        />
+        <button onClick={this.handleAddDogName}>Add Dog</button>
       </div>
     );
   }
